@@ -7,6 +7,7 @@ const getAllData = async() => {
 
 const postDataQuery = async(opts) => {
     console.log("---------================",opts)
+
     return await db.Students.create(opts);
 }
 
