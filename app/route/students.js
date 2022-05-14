@@ -7,3 +7,4 @@ router.get("/allData", ctrl.getData);
 router.post("/post", ctrl.postData);
 
 module.exports = router;
+
