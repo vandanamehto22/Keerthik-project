@@ -2,9 +2,9 @@ const express = require("express")
 const router = express.Router();
 const ctrl = require("../controller/students");
 
-router.get("/allData", ctrl.getData);
+router.get("/studentAllData", ctrl.getDataStudent);
 
-router.post("/post", ctrl.postData);
+router.post("/create/account", ctrl.createAccount);
 
 module.exports = router;
 

@@ -1,19 +1,17 @@
 const db = require("../models")
 
-const getAllData = async() => {
+const getAllData = async () => {
     return await db.Students.findAll();
 }
 
 
-const postDataQuery = async(opts) => {
-    console.log("---------================",opts)
-
+const createDataQuery = async (opts) => {
     return await db.Students.create(opts);
 }
 
 
 module.exports = {
     getAllData,
-    postDataQuery
-};  
+    createDataQuery
+};
 
