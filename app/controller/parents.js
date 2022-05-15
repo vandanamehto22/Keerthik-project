@@ -1,4 +1,5 @@
 const query = require("../queries/parents")
+const jwt = require("jsonwebtoken")
 
 
 const getDataOfParent = async (req, res) => {
@@ -26,7 +27,9 @@ const createAccountOfParent = async (req, res) => {
         }
 
         let result = await query.createAccountForParents(opts);
-        return res.send(result);
+        const token = jwt.sign({opts}, "vandana_secret_key")
+        return res.send({token:token})
+        // return res.send(result);
         // return res.send("your account has created")
 
     }

@@ -1,4 +1,5 @@
 const query = require("../queries/students");
+const jwt = require("jsonwebtoken")
 
 const getDataStudent = async function (req, res) {
     try {
@@ -14,7 +15,6 @@ const getDataStudent = async function (req, res) {
 const createAccount = async function (req, res) {
     try {
         let body = req.body;
-        // console.log("1111111111111111", body)
         let opts = {
             studentName: body.studentName,
             class: body.class,
@@ -23,7 +23,8 @@ const createAccount = async function (req, res) {
             password: body.password
         }
         let data = await query.createDataQuery(opts);
-        return res.send(data)
+        const token = jwt.sign({opts}, "vandana_secret_key") 
+        return res.send({token: token})
     }
     catch (err) {
         console.log(err)
@@ -35,3 +36,5 @@ module.exports = {
     getDataStudent,
     createAccount
 }
+
+
