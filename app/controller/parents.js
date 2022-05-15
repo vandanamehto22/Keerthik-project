@@ -31,8 +31,9 @@ const createAccountOfParent = async (req, res) => {
         return res.send({token:token})
         // return res.send(result);
         // return res.send("your account has created")
-        
 
+
+        
     }
     catch (err) {
         console.log(err);
