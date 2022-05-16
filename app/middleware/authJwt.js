@@ -1,36 +1,23 @@
-const jwt = require("jsonwebtoken");
-const config = require("../config/auth.config");
-const db = require("../models");
-const parents = db.Parents;
 
-verifyToken = (req, res, next) => {
-    let token = req.headers["x-access-token"];
-    if(!token){
-        return res.send("NO token provided")
-    }
+const ctrl = require("../controller/parents")
 
-    jwt.verify(token, config.secret, (err, decoded) => {
-        if(err){
-            return res.send("Unauthorized");
-        }
-        req.id = decoded.id;
+const  ensureToken = (req, res, next) => {
+    const bearerHeader = req.headers["authorization"];
+    if(req.headers && req.headers.authorization){
+        const authorization =req.headers.authorization;
+        // console.log("qqqqqqqqqqqq", authorization)
+        const bearer = authorization.split(' ');
+        // console.log("oooooooooooooooooo",bearer)
+        const bearerToken = bearer[1];
+        // console.log("eeeeeeeeeeeee", bearerToken);
+        req.token = bearerToken; 
         next();
-    })
+    }
+    else{
+        res.send(err);
+    }
 }
 
-isStudent = (req, res, next) => {
-    parents.findByPk(req.id).then(Parents => {
-        Parents.getStudents().then(Students => {
-            for(let i = 0; i<Students.length;i++){
-                if(Students[i].studentName === "admin"){
-                    next();
-                    return;
-                }
-            }
-            req.send("Require Admin Role")
-        })
-        return;
-    })
+module.exports = {
+    ensureToken
 }
-
-

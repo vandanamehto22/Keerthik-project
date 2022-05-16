@@ -1,16 +1,39 @@
 const query = require("../queries/students");
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
+const middleware = require("../middleware/authJwt");
 
-const getDataStudent = async function (req, res) {
+// const getDataStudent = async function (req, res) {
+//     try {
+//         let data = await query.getAllData();
+//         return res.send(data);
+//     }
+//     catch (err) {
+//         console.log(err)
+//         res.send(err)
+//     }
+// }
+
+
+// get  data by token
+const getDataStudent = async (req, res) => {
     try {
-        let data = await query.getAllData();
-        return res.send(data);
+        let result = await query.getAllData();
+        jwt.verify(req.token, 'vandana_secret_key', (err, result) => {
+            if(err){
+                res.send(err);
+            }else{
+                res.send(result)
+            }
+        })
     }
     catch (err) {
-        console.log(err)
-        res.send(err)
+        console.log(err);
+        res.send(err);
     }
+
 }
+
+
 
 const createAccount = async function (req, res) {
     try {

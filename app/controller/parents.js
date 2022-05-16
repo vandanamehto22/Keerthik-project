@@ -1,5 +1,6 @@
 const query = require("../queries/parents")
 const jwt = require("jsonwebtoken")
+const middleware = require("../middleware/authJwt")
 
 
 // const getDataOfParent = async (req, res) => {
@@ -15,20 +16,17 @@ const jwt = require("jsonwebtoken")
 
 // }
 
-
+// get  data by token
 const getDataOfParent = async (req, res) => {
     try {
         let result = await query.getData();
-        jwt.verify(req.token, 'vandana_secret_key', (err, data) => {
+        jwt.verify(req.token, 'vandana_secret_key', (err, result) => {
             if(err){
                 res.send(err);
             }else{
-                res.send(data)
+                res.send(result)
             }
         })
-
-        // console.log(result);
-        // return res.send(result);
     }
     catch (err) {
         console.log(err);
@@ -36,25 +34,6 @@ const getDataOfParent = async (req, res) => {
     }
 
 }
-
-
-function ensureToken(req, res, next){
-    const bearerHeader = req.headers["authorization"];
-    if(req.headers && req.headers.authorization){
-        const authorization =req.headers.authorization;
-        console.log("qqqqqqqqqqqq", authorization)
-        const bearer = authorization.split(' ');
-        console.log("oooooooooooooooooo",bearer)
-        const bearerToken = bearer[1];
-        console.log("eeeeeeeeeeeee", bearerToken);
-        req.token = bearerToken; 
-        next();
-    }
-    // else{
-    //     res.send(err);
-    // }
-}
-
 
 
 
@@ -86,6 +65,5 @@ const createAccountOfParent = async (req, res) => {
 
 module.exports = {
     getDataOfParent,
-    createAccountOfParent,
-    ensureToken
+    createAccountOfParent
 };

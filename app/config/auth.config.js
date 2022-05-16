@@ -1,3 +1,5 @@
+
+
 module.exports = {
-    secret: "vandana-secret-key"
+    secretKey: "vandana-secret-key"
   };
