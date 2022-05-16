@@ -21,9 +21,9 @@ const getDataOfParent = async (req, res) => {
     try {
         let result = await query.getData();
         jwt.verify(req.token, 'vandana_secret_key', (err, result) => {
-            if(err){
+            if (err) {
                 res.send(err);
-            }else{
+            } else {
                 res.send(result)
             }
         })
@@ -34,7 +34,6 @@ const getDataOfParent = async (req, res) => {
     }
 
 }
-
 
 
 const createAccountOfParent = async (req, res) => {
@@ -49,8 +48,8 @@ const createAccountOfParent = async (req, res) => {
         }
 
         let result = await query.createAccountForParents(opts);
-        const token = jwt.sign({opts}, "vandana_secret_key")
-        return res.send({token:token})
+        const token = jwt.sign({ opts }, "vandana_secret_key")
+        return res.send({ token: token })
         // return res.send(result);
         // return res.send("your account has created")
 

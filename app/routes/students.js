@@ -7,5 +7,7 @@ router.get("/studentAllData", middleware.ensureToken,ctrl.getDataStudent);
 
 router.post("/create/account", ctrl.createAccount);
 
+router.post("/login",ctrl.studentLogin);
+
 module.exports = router;
 

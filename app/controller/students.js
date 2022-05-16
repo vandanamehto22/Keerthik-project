@@ -19,9 +19,9 @@ const getDataStudent = async (req, res) => {
     try {
         let result = await query.getAllData();
         jwt.verify(req.token, 'vandana_secret_key', (err, result) => {
-            if(err){
+            if (err) {
                 res.send(err);
-            }else{
+            } else {
                 res.send(result)
             }
         })
@@ -46,8 +46,8 @@ const createAccount = async function (req, res) {
             password: body.password
         }
         let data = await query.createDataQuery(opts);
-        const token = jwt.sign({opts}, "vandana_secret_key") 
-        return res.send({token: token})
+        const token = jwt.sign({ opts }, "vandana_secret_key")
+        return res.send({ token: token })
     }
     catch (err) {
         console.log(err)
@@ -55,9 +55,33 @@ const createAccount = async function (req, res) {
     }
 }
 
+
+const studentLogin = async (req, res) => {
+    try {
+        let body = req.body;
+        // let opts = {
+        //     mobileNo: body.mobileNo,
+        //     password: body.password
+        // }
+
+        const currentUser = await query.studentLoginAccount(body.mobileNo)
+        if (currentUser) {
+        }
+
+
+    }
+    catch (err) {
+        console.log(err)
+        res.send(err)
+    }
+
+}
+
+
 module.exports = {
     getDataStudent,
-    createAccount
+    createAccount,
+    studentLogin
 }
 
 
