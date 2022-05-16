@@ -10,13 +10,8 @@ const createDataQuery = async (opts) => {
 }
 
 
-const studentLoginAccount = async(mobileNo) => {
-    return await db.Students.findAll({where:{mobileNo:mobileNo}})
-}
-
 module.exports = {
     getAllData,
-    createDataQuery,
-    studentLoginAccount
+    createDataQuery
 };
 
