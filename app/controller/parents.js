@@ -12,7 +12,6 @@ const getDataOfParent = async (req, res) => {
         console.log(err);
         res.send(err);
     }
-
 }
 
 // create account of parent
@@ -29,8 +28,9 @@ const createAccountOfParent = async (req, res) => {
 
         let result = await query.createAccountForParents(opts);
         // return res.send(result);
-        const token = jwt.sign({opts }, "vandana_secret_key")
-        return res.send({ token: token })
+        // const token = jwt.sign({opts }, "vandana_secret_key")
+        // return res.send({ token: token })
+        return res.send({ otp: "12345" })
     }
     catch (err) {
         console.log(err);
@@ -38,7 +38,24 @@ const createAccountOfParent = async (req, res) => {
     }
 }
 
+const verifyOtpOfParent = async (req, res) => {
+    try {
+        let data = await query.getOtpVerifyOfParent(req.body.otp)
+        if (req.body.otp === "12345") {
+            res.send('ok')
+        }
+        else {
+            res.send('not ok')
+        }
+    }
+    catch (err) {
+        console.log(err);
+        res.send(err)
+    }
+}
+
 module.exports = {
     getDataOfParent,
-    createAccountOfParent
+    createAccountOfParent,
+    verifyOtpOfParent
 };
