@@ -1,5 +1,4 @@
 const query = require("../queries/students");
-const jwt = require("jsonwebtoken");
 const db = require("../models");
 
 // get all data of parents
@@ -27,15 +26,7 @@ const createAccount = async function (req, res) {
             password: body.password,
         }
         let data = await query.createDataQuery(opts);
-        // return res.send(data)
-        // const token = jwt.sign({ opts }, "vandana_secret_key")
-        // res.send({token:token})
-        return res.send({ otp: "12345" })
-        // var otp = Math.random();
-        // otp = otp * 1000000;
-        // otp = parseInt(otp);
-        // // console.log(otp);
-        // return res.send({otp});
+         res.send({ otp: "12345" })
     }
     catch (err) {
         console.log(err)
@@ -46,12 +37,17 @@ const createAccount = async function (req, res) {
 // verify otp
 const verifyOtp = async (req, res) => {
     try {
-        let data = await query.getOtpVerify(req.body.otp)
+        let body = req.body
+        let opts={
+            mobileNo: body.mobileNo,
+            otp: body.otp
+        }
+        let data = await query.getOtpVerify(opts)
         if (req.body.otp == "12345") {
-            res.send('ok')
+            res.send('OTP VERIFIED SUCCESSFULLY')
         }
         else {
-            res.send('not ok')
+            res.send('INVALID OTP')
         }
     }
     catch (err) {
@@ -61,16 +57,33 @@ const verifyOtp = async (req, res) => {
 }
 
 
+// login of student
 const login = async(req, res) => {
     try{
-        const mobile_number = await db.Students.findOne({where:{mobileNo:mobileNo}})
-        if(!mobile_number === mobileNo || mobile_number === null){
-            return ("login successfully")
-        }
+        let checkMobileNo = await query.loginMobileNumber(req.body.mobileNo);
+        res.send(checkMobileNo);
     }
     catch(err){
         console.log(err);
         res.send(err);
+    }
+}
+
+const loginOtp = async(req, res) => {
+    try{
+        let data = await query.loginOtpVerify(req.body.otp);
+        console.log("fffffffffffffffffffff",req.body.otp);
+        if(req.body.otp == "12345"){
+            res.send("OTP VERIFIED SUCCESSFULLY")
+
+        }else{
+            res.send("INVALIED OTP")
+
+        }
+
+    }catch(err){
+        console.log(err);
+        res.send(err)
     }
 }
 
@@ -79,7 +92,7 @@ module.exports = {
     getDataStudent,
     createAccount,
     verifyOtp,
-    login
+    login,
+    loginOtp
 }
-
 

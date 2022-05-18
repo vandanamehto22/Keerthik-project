@@ -18,6 +18,9 @@ const getDataOfParent = async (req, res) => {
 const createAccountOfParent = async (req, res) => {
     try {
         let body = req.body;
+        var otp = Math.random();
+        otp = otp * 1000000;
+        otp = parseInt(otp);
         let opts = {
             name: body.name,
             class: body.class,
@@ -25,12 +28,11 @@ const createAccountOfParent = async (req, res) => {
             mobileNumber: body.mobileNumber,
             password: body.password
         }
-
         let result = await query.createAccountForParents(opts);
-        // return res.send(result);
-        // const token = jwt.sign({opts }, "vandana_secret_key")
-        // return res.send({ token: token })
-        return res.send({ otp: "12345" })
+            var varx = otp;
+            console.log("pppppppppppp", varx)
+            // res.send({otp:otp})
+            // res.send(result)
     }
     catch (err) {
         console.log(err);
@@ -38,10 +40,16 @@ const createAccountOfParent = async (req, res) => {
     }
 }
 
+
+
 const verifyOtpOfParent = async (req, res) => {
     try {
-        let data = await query.getOtpVerifyOfParent(req.body.otp)
-        if (req.body.otp === "12345") {
+        let data = await query.getOtpVerifyOfParent(req.body)
+        console.log("qqqqqqqq", req.body)
+
+       
+
+        if (req.body.otp ==  index) {
             res.send('ok')
         }
         else {
@@ -53,6 +61,7 @@ const verifyOtpOfParent = async (req, res) => {
         res.send(err)
     }
 }
+
 
 module.exports = {
     getDataOfParent,

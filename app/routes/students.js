@@ -11,5 +11,8 @@ router.post("/student/otp/verify", ctrl.verifyOtp);
 
 router.post("/login", ctrl.login);
 
+router.post("/verifyOtpOfLogin", ctrl.loginOtp);
+
+
 module.exports = router;
 

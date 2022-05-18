@@ -34,7 +34,11 @@ module.exports = (sequelize, DataType) => {
         updatedAt: {
             type: DataType.INTEGER,
             allowNull: true
-        }
+        },
+        // otp:{
+        //       type:DataType.STRING,
+        //       allowNull:false
+        //     }
     }
         , {
             hooks: {
