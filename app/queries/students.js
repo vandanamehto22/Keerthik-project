@@ -37,7 +37,7 @@ const loginMobileNumber = async (mobile_Number) => {
     try{
         let mobileNumber = await db.Students.findOne({ where: { mobileNo: mobile_Number } });
         if (mobileNumber !== null) {
-            if (mobile_Number.mobileNo === mobileNumber.number) {
+            if (mobile_Number.mobileNo === mobileNumber.mobile_Number) {
                 const token = jwt.sign({ mobileNumber }, "vandana_secret_key");
                 return ({ token: token })
             } else {

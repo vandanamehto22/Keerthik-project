@@ -60,8 +60,8 @@ const verifyOtp = async (req, res) => {
 // login of student
 const login = async(req, res) => {
     try{
-        let checkMobileNo = await query.loginMobileNumber(req.body.mobileNo);
-        res.send(checkMobileNo);
+        let check_mobile_number = await query.loginMobileNumber(req.body.mobileNo);
+        res.send(check_mobile_number);
     }
     catch(err){
         console.log(err);

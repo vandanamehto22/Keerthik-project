@@ -49,7 +49,7 @@ const verifyOtpOfParent = async (req, res) => {
 
        
 
-        if (req.body.otp ==  index) {
+        if (req.body.otp == result.varx) {
             res.send('ok')
         }
         else {
@@ -62,9 +62,22 @@ const verifyOtpOfParent = async (req, res) => {
     }
 }
 
+// login of parent
+const loginParent = async(req, res) => {
+    try{
+
+        let check_mobile_number = await query.loginMobileNumberOfParent(req.body.mobileNumber);
+        res.send(check_mobile_number);
+
+    }catch(err){
+        console.log(err);
+        res.send(err)
+    }
+}
 
 module.exports = {
     getDataOfParent,
     createAccountOfParent,
-    verifyOtpOfParent
+    verifyOtpOfParent,
+    loginParent
 };

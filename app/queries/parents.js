@@ -1,4 +1,5 @@
 const db = require("../models");
+const jwt = require("jsonwebtoken")
 
 // get all data of parent
 const getData = async () => {
@@ -36,8 +37,31 @@ const getOtpVerifyOfParent = async () => {
 }
 
 
+// login account of parent
+const loginMobileNumberOfParent = async(mobile_number) => {
+
+    try{
+        let mobileNo = await db.Parents.findOne({where:{mobileNumber:mobile_number}})
+        if(mobileNo !== null){
+            if(mobile_number.mobileNumber === mobileNo.mobile_number){
+                const token = jwt.sign({ mobileNo }, "vandana_secret_key");
+                return ({token : token})
+            }else{
+                return ("register yourself first.")
+            }
+        } else {
+            return ("register yourself first.")
+            }
+
+    }catch(err){
+        console.log(err);
+        res.send(err);
+    }
+}
+
 module.exports = {
     getData,
     createAccountForParents,
-    getOtpVerifyOfParent
+    getOtpVerifyOfParent,
+    loginMobileNumberOfParent
 }
