@@ -35,10 +35,10 @@ module.exports = (sequelize, DataType) => {
             type: DataType.INTEGER,
             allowNull: true
         },
-        // otp:{
-        //       type:DataType.STRING,
-        //       allowNull:false
-        //     }
+        otp:{
+            type:DataType.STRING,
+            allowNull:false
+        }
     }
         , {
             hooks: {

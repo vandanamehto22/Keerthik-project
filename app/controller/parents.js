@@ -26,13 +26,14 @@ const createAccountOfParent = async (req, res) => {
             class: body.class,
             rollNumber: body.rollNumber,
             mobileNumber: body.mobileNumber,
-            password: body.password
+            password: body.password,
+            otp: otp
         }
-        let result = await query.createAccountForParents(opts);
-            var varx = otp;
-            console.log("pppppppppppp", varx)
-            // res.send({otp:otp})
-            // res.send(result)
+        let result = await query.createAccountForParents(opts, otp);
+        // var varx = otp;
+        // console.log("pppppppppppp", varx)
+        // res.send({otp:otp})
+        res.send(result)
     }
     catch (err) {
         console.log(err);
@@ -40,36 +41,36 @@ const createAccountOfParent = async (req, res) => {
     }
 }
 
-
-
 const verifyOtpOfParent = async (req, res) => {
     try {
         let data = await query.getOtpVerifyOfParent(req.body)
-        console.log("qqqqqqqq", req.body)
+        // console.log("yyyyyyyyy", data)
+        for (let i = 0; i < data.length; i++) {
+            // console.log("fffffffffffff", data[i])
+            console.log("ddddddddddddd", data[i].otp)
 
-       
+            console.log("uuuuuuuuuuu", req.body.otp === data[i].otp)
 
-        if (req.body.otp == result.varx) {
-            res.send('ok')
+            if (req.body.otp === data[i].otp) {
+                    return res.send('ok')
+                } else {
+                    return res.send('not ok')
+                }
         }
-        else {
-            res.send('not ok')
-        }
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err);
         res.send(err)
     }
 }
 
 // login of parent
-const loginParent = async(req, res) => {
-    try{
+const loginParent = async (req, res) => {
+    try {
 
         let check_mobile_number = await query.loginMobileNumberOfParent(req.body.mobileNumber);
         res.send(check_mobile_number);
 
-    }catch(err){
+    } catch (err) {
         console.log(err);
         res.send(err)
     }

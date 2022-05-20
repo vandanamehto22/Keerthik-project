@@ -23,10 +23,6 @@ const createDataQuery = async (opts) => {
     }
 }
 
-// craete account of student
-// const createDataQuery = async (opts) => {
-//     return await db.Students.create(opts);
-// }
 
 const getOtpVerify = async () => {
     return await db.Students.findAll();
@@ -37,7 +33,7 @@ const loginMobileNumber = async (mobile_Number) => {
     try{
         let mobileNumber = await db.Students.findOne({ where: { mobileNo: mobile_Number } });
         if (mobileNumber !== null) {
-            if (mobile_Number.mobileNo === mobileNumber.mobile_Number) {
+            if (mobile_Number == mobile_Number) {
                 const token = jwt.sign({ mobileNumber }, "vandana_secret_key");
                 return ({ token: token })
             } else {
@@ -55,19 +51,9 @@ const loginMobileNumber = async (mobile_Number) => {
 
 
 
-const loginOtpVerify = async (otpData) => {
-    console.log("qqqqqqqqqqqq", otpData); 
-    return await db.Students.findOne({ where: { otp: otpData } })
-
-}
-
-
-
-
 module.exports = {
     getAllData,
     createDataQuery,
     getOtpVerify,
     loginMobileNumber,
-    loginOtpVerify
 };

@@ -1,5 +1,7 @@
 const query = require("../queries/students");
 const db = require("../models");
+const middleware = require("../middlewares/auth")
+const jwt = require("jsonwebtoken")
 
 // get all data of parents
 
@@ -42,7 +44,7 @@ const verifyOtp = async (req, res) => {
             mobileNo: body.mobileNo,
             otp: body.otp
         }
-        let data = await query.getOtpVerify(opts)
+        let data = await query.getOtpVerify(opts);
         if (req.body.otp == "12345") {
             res.send('OTP VERIFIED SUCCESSFULLY')
         }
@@ -69,30 +71,11 @@ const login = async(req, res) => {
     }
 }
 
-const loginOtp = async(req, res) => {
-    try{
-        let data = await query.loginOtpVerify(req.body.otp);
-        console.log("fffffffffffffffffffff",req.body.otp);
-        if(req.body.otp == "12345"){
-            res.send("OTP VERIFIED SUCCESSFULLY")
-
-        }else{
-            res.send("INVALIED OTP")
-
-        }
-
-    }catch(err){
-        console.log(err);
-        res.send(err)
-    }
-}
-
 
 module.exports = {
     getDataStudent,
     createAccount,
     verifyOtp,
-    login,
-    loginOtp
+    login
 }
 
