@@ -1,5 +1,7 @@
 const query = require("../queries/students");
-const jwt = require("jsonwebtoken");
+const db = require("../models");
+const middleware = require("../middlewares/auth")
+const jwt = require("jsonwebtoken")
 
 // get all data of parents
 
@@ -23,12 +25,10 @@ const createAccount = async function (req, res) {
             class: body.class,
             rollNumber: body.rollNumber,
             mobileNo: body.mobileNo,
-            password: body.password
+            password: body.password,
         }
         let data = await query.createDataQuery(opts);
-        // return res.send(data)
-        const token = jwt.sign({ opts }, "vandana_secret_key")
-        return res.send({ token: token })
+         res.send({ otp: "12345" })
     }
     catch (err) {
         console.log(err)
@@ -36,10 +36,46 @@ const createAccount = async function (req, res) {
     }
 }
 
+// verify otp
+const verifyOtp = async (req, res) => {
+    try {
+        let body = req.body
+        let opts={
+            mobileNo: body.mobileNo,
+            otp: body.otp
+        }
+        let data = await query.getOtpVerify(opts);
+        if (req.body.otp == "12345") {
+            res.send('OTP VERIFIED SUCCESSFULLY')
+        }
+        else {
+            res.send('INVALID OTP')
+        }
+    }
+    catch (err) {
+        console.log(err);
+        res.send(err);
+    }
+}
+
+
+// login of student
+const login = async(req, res) => {
+    try{
+        let check_mobile_number = await query.loginMobileNumber(req.body.mobileNo);
+        res.send(check_mobile_number);
+    }
+    catch(err){
+        console.log(err);
+        res.send(err);
+    }
+}
+
 
 module.exports = {
     getDataStudent,
-    createAccount
+    createAccount,
+    verifyOtp,
+    login
 }
-
 
